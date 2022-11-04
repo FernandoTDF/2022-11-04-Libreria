@@ -6,6 +6,7 @@ var Libreria = /** @class */ (function () {
         this.listadoDePublicaciones = paramListadoPublicaciones;
         this.listadoDeClientes = paramListadoClientes;
     }
+    //-------------- Referentes al Stock del Catalogo de la Libreria------------
     Libreria.prototype.mostrarPublicacionesDelCatalogo = function () {
         console.log("A continuacion se muestran las Publicaciones en Stock:");
         console.log(this.listadoDePublicaciones);
@@ -25,6 +26,7 @@ var Libreria = /** @class */ (function () {
             }
         }
     };
+    //-------------- Referentes a Clientes de la Libreria------------
     Libreria.prototype.cargarClienteAlListado = function (paramCliente) {
         this.listadoDeClientes.push(paramCliente);
         console.log("Cliente ingresado al listado de Clientes: " + paramCliente.getNombre() + " " + paramCliente.getApellido());
@@ -48,6 +50,9 @@ var Libreria = /** @class */ (function () {
         console.log("Se ha vendido la publicacion ".concat(paramPublicacion.getNombre(), " del cliente ").concat(paramCliente.getNombre(), " y se ha agregado a su listado personal"));
     };
     Libreria.prototype.getPrecioPublicacionPorCliente = function (paramLibro, paramCliente) {
+        //control de error
+        if (paramCliente.getDescuentoGeneral() === 0 || paramCliente.getDescuentoGeneral() === undefined || paramCliente.getDescuentoGeneral() === null)
+            throw new Error("este valor debe ser mayor a cero");
         console.log("El precio de la publicacion ".concat(paramLibro.getNombre(), "es ").concat(paramLibro.getPrecio(), ". Para el cliente ").concat(paramCliente.getNombre(), ", el precio final es: ") + paramLibro.getPrecio() / (1 + (paramCliente.getDescuentoGeneral() / 100)) + "por tener un descuento del % " + paramCliente.getDescuentoGeneral());
     };
     Libreria.prototype.checkPublicacionAdquiridaPorCLiente = function (paramLibro, paramCliente) {

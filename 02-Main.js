@@ -5,7 +5,7 @@ var _00_ClasePublicacion_2 = require("./00-ClasePublicacion");
 var _00_ClaseCliente_1 = require("./00-ClaseCliente");
 var _01_Libreria_1 = require("./01-Libreria");
 //------------------Creacion de Clientes--------------------
-var FerFrias = new _00_ClaseCliente_1.Cliente("Fernando", "Frias", 28676721, "Maria Elena Walsh 5180", ["H. P. Lovecraft", "Nestor Quadri"], ["Novela de ciencia ficción", "Tecnico"], 15, false);
+var FerFrias = new _00_ClaseCliente_1.Cliente("Fernando", "Frias", 28676721, "Maria Elena Walsh 5180", ["H. P. Lovecraft", "Nestor Quadri"], ["Novela de ciencia ficción", "Tecnico"], 0, false);
 var LiliHerrera = new _00_ClaseCliente_1.Cliente("Liliana", "Herrera", 26560968, "Las Aljabas 402", ["GARCÍA MÁRQUEZ, GABRIEL", "Dain Heer"], ["Autoayuda"], 30, true);
 //------------------Prueba Metodos de Cliente------------------------------------
 console.log("------------------------------------------------------------------------------------");

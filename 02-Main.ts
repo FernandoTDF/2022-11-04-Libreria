@@ -7,7 +7,7 @@ import { Libreria } from "./01-Libreria"
 
 //------------------Creacion de Clientes--------------------
 
-let FerFrias: Cliente = new Cliente("Fernando", "Frias", 28676721, "Maria Elena Walsh 5180", ["H. P. Lovecraft", "Nestor Quadri"], ["Novela de ciencia ficción", "Tecnico"], 15, false);
+let FerFrias: Cliente = new Cliente("Fernando", "Frias", 28676721, "Maria Elena Walsh 5180", ["H. P. Lovecraft", "Nestor Quadri"], ["Novela de ciencia ficción", "Tecnico"], 0, false);
 
 let LiliHerrera: Cliente = new Cliente("Liliana", "Herrera", 26560968, "Las Aljabas 402", ["GARCÍA MÁRQUEZ, GABRIEL", "Dain Heer"], ["Autoayuda"], 30, true);
 
@@ -93,4 +93,3 @@ CodiceLibros.mostrarPublicacionesDelCatalogo();
 
 console.log("---------->El Metodo muestra si a un cliente le gusta un determinado Libro: ferFrias con el Libro 'Instalaciones de Aire Acondicionado y Calefacción' 'gustaAlClienteLibro' ");
 CodiceLibros.gustaAlClienteLibro(InstalacionesDeAireAcondicionadoYcalefacción, FerFrias)
-

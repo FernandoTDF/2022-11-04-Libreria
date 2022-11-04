@@ -12,7 +12,8 @@ export class Libreria {
     this.listadoDeClientes = paramListadoClientes;
   }
 
-  public mostrarPublicacionesDelCatalogo(){
+  //-------------- Referentes al Stock del Catalogo de la Libreria------------
+  public mostrarPublicacionesDelCatalogo() {
     console.log(`A continuacion se muestran las Publicaciones en Stock:`)
     console.log(this.listadoDePublicaciones);
   }
@@ -33,6 +34,9 @@ export class Libreria {
     }
   }
 
+
+  //-------------- Referentes a Clientes de la Libreria------------
+
   public cargarClienteAlListado(paramCliente: Cliente) {
     this.listadoDeClientes.push(paramCliente);
     console.log("Cliente ingresado al listado de Clientes: " + paramCliente.getNombre() + " " + paramCliente.getApellido());
@@ -49,7 +53,7 @@ export class Libreria {
     }
   }
 
-  public getListadoDePublicacionesPorCliente(paramCliente: Cliente) {
+  public getListadoDePublicacionesPorCliente(paramCliente: Cliente) { //muestra todas las publicaciones adquiridas por cliente
     return paramCliente.getPublicacionesAdquiridasDelCliente();
   }
 
@@ -58,11 +62,16 @@ export class Libreria {
     console.log(`Se ha vendido la publicacion ${paramPublicacion.getNombre()} del cliente ${paramCliente.getNombre()} y se ha agregado a su listado personal`)
   }
 
-  public getPrecioPublicacionPorCliente(paramLibro: Publicacion, paramCliente: Cliente) {
+  public getPrecioPublicacionPorCliente(paramLibro: Publicacion, paramCliente: Cliente) {//muestra el precio de venta de una publicacion segun cada cliente
+    //control de error
+    
+    if (paramCliente.getDescuentoGeneral() === 0 || paramCliente.getDescuentoGeneral() === undefined || paramCliente.getDescuentoGeneral() === null)
+      throw new Error("este valor debe ser mayor a cero")
+
     console.log(`El precio de la publicacion ${paramLibro.getNombre()}es ${paramLibro.getPrecio()}. Para el cliente ${paramCliente.getNombre()}, el precio final es: ` + paramLibro.getPrecio() / (1 + (paramCliente.getDescuentoGeneral() / 100)) + "por tener un descuento del % " + paramCliente.getDescuentoGeneral())
   }
 
-  public checkPublicacionAdquiridaPorCLiente(paramLibro: Publicacion, paramCliente: Cliente): boolean {
+  public checkPublicacionAdquiridaPorCLiente(paramLibro: Publicacion, paramCliente: Cliente): boolean {//chequea si una publicacion esta en poder de un cliente
     let arregloPublicacionesCliente = paramCliente.getPublicacionesAdquiridasDelCliente();
 
     let publicacionEncontrada: boolean = false;
@@ -86,7 +95,7 @@ export class Libreria {
     }
   }
 
-  public gustaAlClienteLibro(paramLibro: Libro, paramCliente: Cliente) {
+  public gustaAlClienteLibro(paramLibro: Libro, paramCliente: Cliente) {//expresa si a un cliente le gusta o no una publicacion segun si es Exigente o no
 
     let libroAgradoDelCliente: boolean = false;
 
