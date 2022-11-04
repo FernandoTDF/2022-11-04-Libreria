@@ -57,19 +57,19 @@ export class Cliente {
     return this.direccion;
   }
 
-  public setListadoAutoresPreferidos(paramAutorPreferido: string) {
+  public setAlListadoAutoresPreferidos(paramAutorPreferido: string) {
     this.listadoAutoresPreferidos.push(paramAutorPreferido);
   }
 
-  public getListadoAutoresPreferidos(): string[] {
+  public getDelListadoAutoresPreferidos(): string[] {
     return this.listadoAutoresPreferidos;
   }
 
-  public setListadoGenerosPreferidos(paramGeneroPreferido: string) {
+  public setAlListadoGenerosPreferidos(paramGeneroPreferido: string) {
     this.listadoGenerosPreferidos.push(paramGeneroPreferido);
   }
 
-  public getListadoGenerosPreferidos(): string[] {
+  public getDelListadoGenerosPreferidos(): string[] {
     return this.listadoGenerosPreferidos;
   }
 

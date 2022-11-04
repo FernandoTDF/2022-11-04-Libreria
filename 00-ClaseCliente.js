@@ -40,16 +40,16 @@ var Cliente = /** @class */ (function () {
     Cliente.prototype.getDireccion = function () {
         return this.direccion;
     };
-    Cliente.prototype.setListadoAutoresPreferidos = function (paramAutorPreferido) {
+    Cliente.prototype.setAlListadoAutoresPreferidos = function (paramAutorPreferido) {
         this.listadoAutoresPreferidos.push(paramAutorPreferido);
     };
-    Cliente.prototype.getListadoAutoresPreferidos = function () {
+    Cliente.prototype.getDelListadoAutoresPreferidos = function () {
         return this.listadoAutoresPreferidos;
     };
-    Cliente.prototype.setListadoGenerosPreferidos = function (paramGeneroPreferido) {
+    Cliente.prototype.setAlListadoGenerosPreferidos = function (paramGeneroPreferido) {
         this.listadoGenerosPreferidos.push(paramGeneroPreferido);
     };
-    Cliente.prototype.getListadoGenerosPreferidos = function () {
+    Cliente.prototype.getDelListadoGenerosPreferidos = function () {
         return this.listadoGenerosPreferidos;
     };
     Cliente.prototype.setDescuentoGeneral = function (paramDescuentoGeneral) {

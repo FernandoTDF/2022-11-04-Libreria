@@ -1,21 +1,26 @@
 "use strict";
 exports.__esModule = true;
 var _00_ClasePublicacion_1 = require("./00-ClasePublicacion");
+var _00_ClasePublicacion_2 = require("./00-ClasePublicacion");
 var _00_ClaseCliente_1 = require("./00-ClaseCliente");
 var Libreria = /** @class */ (function () {
     function Libreria(paramListadoPublicaciones, paramListadoClientes) {
         this.listadoDePublicaciones = paramListadoPublicaciones;
         this.listadoDeClientes = paramListadoClientes;
     }
-    Libreria.prototype.ingresarPublicacionAlCatalogo = function (paramLibro) {
-        this.listadoDePublicaciones.push(paramLibro);
-        console.log("Publicacion ingresada al Catalogo: " + paramLibro.getNombre());
+    Libreria.prototype.mostrarPublicacionesDelCatalogo = function () {
+        console.log("A continuacion se muestran las Publicaciones en Stock:");
+        console.log(this.listadoDePublicaciones);
     };
-    Libreria.prototype.borrarPublicacionDelCatalogo = function (paramLibro) {
+    Libreria.prototype.ingresarPublicacionAlCatalogo = function (paramPublicacion) {
+        this.listadoDePublicaciones.push(paramPublicacion);
+        console.log("Publicacion ingresada al Catalogo: " + paramPublicacion.getNombre());
+    };
+    Libreria.prototype.borrarPublicacionDelCatalogo = function (paramPublicacion) {
         for (var i = 0; i < this.listadoDePublicaciones.length; i++) {
-            if (paramLibro.getNombre() === this.listadoDePublicaciones[i].getNombre()) {
+            if (paramPublicacion.getNombre() === this.listadoDePublicaciones[i].getNombre()) {
                 this.listadoDePublicaciones.splice(i, 1);
-                console.log("Publicacion eliminada del Catalogo: " + paramLibro.getNombre());
+                console.log("Publicacion eliminada del Catalogo: " + paramPublicacion.getNombre());
             }
             else {
                 console.log("No se ha encontrado la Publicacion ");
@@ -40,8 +45,12 @@ var Libreria = /** @class */ (function () {
     Libreria.prototype.getListadoDePublicacionesPorCliente = function (paramCliente) {
         return paramCliente.getPublicacionesAdquiridasDelCliente();
     };
+    Libreria.prototype.venderPublicacionAlCliente = function (paramPublicacion, paramCliente) {
+        paramCliente.setPublicacionAlListadoCliente(paramPublicacion);
+        console.log("Se ha vendido la publicacion ".concat(paramPublicacion.getNombre(), " del cliente ").concat(paramCliente.getNombre(), " y se ha agregado a su listado personal"));
+    };
     Libreria.prototype.getPrecioPublicacionPorCliente = function (paramLibro, paramCliente) {
-        return paramLibro.getPrecio() / (1 + (paramCliente.getDescuentoGeneral() / 100));
+        console.log("El precio de la publicacion ".concat(paramLibro.getNombre(), "es ").concat(paramLibro.getPrecio(), ". Para el cliente ").concat(paramCliente.getNombre(), ", el precio final es: ") + paramLibro.getPrecio() / (1 + (paramCliente.getDescuentoGeneral() / 100)) + "por tener un descuento del % " + paramCliente.getDescuentoGeneral());
     };
     Libreria.prototype.checkPublicacionAdquiridaPorCLiente = function (paramLibro, paramCliente) {
         var arregloPublicacionesCliente = paramCliente.getPublicacionesAdquiridasDelCliente();
@@ -65,43 +74,46 @@ var Libreria = /** @class */ (function () {
         }
     };
     Libreria.prototype.gustaAlClienteLibro = function (paramLibro, paramCliente) {
+        var libroAgradoDelCliente = false;
         switch (paramCliente.getEsClienteExigente()) {
             case false: //caso para cliente no exigente
-                if (paramCliente.getListadoAutoresPreferidos().includes(paramLibro.getAutor()) === true) {
-                    //verifica que en el listado de autores preferidos del cliente, se encuentre el autor de la publicacion analizada.
-                    console.log("Al cliente ".concat(paramCliente.getNombre, " le gusta este libro"));
-                }
-                else {
-                    console.log("Al cliente ".concat(paramCliente.getNombre, " NO le gusta este libro"));
+                for (var i = 0; i < paramCliente.getDelListadoAutoresPreferidos().length; i++) {
+                    if (paramCliente.getDelListadoAutoresPreferidos()[i] === paramLibro.getAutor()) {
+                        libroAgradoDelCliente = true;
+                    }
                 }
                 break;
             case true: //caso para cliente exigente
-                if (paramCliente.getListadoAutoresPreferidos().includes(paramLibro.getAutor()) === true && paramCliente.getListadoGenerosPreferidos().includes(paramLibro.getGeneroLiterario())) {
-                    //verifica que en el listado de autores preferidos del cliente, se encuentre el autor de la publicacion analizada, y ADEMAS tambien el genero literario este entre sus preferencias.
-                    console.log("Al cliente ".concat(paramCliente.getNombre, " le gusta este libro"));
-                }
-                else {
-                    console.log("Al cliente ".concat(paramCliente.getNombre, " NO le gusta este libro"));
+                for (var i = 0; i < paramCliente.getDelListadoAutoresPreferidos().length; i++) {
+                    if ((paramCliente.getDelListadoAutoresPreferidos()[i] === paramLibro.getAutor()) && (paramCliente.getDelListadoGenerosPreferidos()[i] === paramLibro.getGeneroLiterario())) {
+                        libroAgradoDelCliente = true;
+                    }
                 }
                 break;
+        }
+        if (libroAgradoDelCliente === true) {
+            console.log("Al cliente ".concat(paramCliente.getNombre(), " le gusta el libro ").concat(paramLibro.getNombre()));
+        }
+        else {
+            console.log("Al cliente ".concat(paramCliente.getNombre(), " NO le gusta el libro ").concat(paramLibro.getNombre()));
         }
     };
     return Libreria;
 }());
 //------------------Creacion de Clientes--------------------
-var FerFrias = new _00_ClaseCliente_1.Cliente("Fernando", "Frias", 28676721, "Maria Elena Walsh 5180", ["H. P. Lovecraft", "Nestor Quadri"], ["Novela de ciencia ficción", "Tecnico"], 0.15, false);
-var LiliHerrera = new _00_ClaseCliente_1.Cliente("Liliana", "Herrera", 26560968, "Las Aljabas 402", ["GARCÍA MÁRQUEZ, GABRIEL", "Dain Heer"], ["Autoayuda"], 0.3, true);
+var FerFrias = new _00_ClaseCliente_1.Cliente("Fernando", "Frias", 28676721, "Maria Elena Walsh 5180", ["H. P. Lovecraft", "Nestor Quadri"], ["Novela de ciencia ficción", "Tecnico"], 15, false);
+var LiliHerrera = new _00_ClaseCliente_1.Cliente("Liliana", "Herrera", 26560968, "Las Aljabas 402", ["GARCÍA MÁRQUEZ, GABRIEL", "Dain Heer"], ["Autoayuda"], 30, true);
 //------------------Prueba Metodos de Cliente------------------------------------
 console.log("------------------------------------------------------------------------------------");
-console.log("Prueba Metodos de Cliente Fernando Frias");
-console.log("Metodo Get Nombre :" + FerFrias.getNombre());
-console.log("Metodo Get Apellido :" + FerFrias.getApellido());
-console.log("Metodo Get DNI :" + FerFrias.getDNI());
-console.log("Metodo Get Direccion :" + FerFrias.getDireccion());
-console.log("Metodo Get Autores Preferidos: " + FerFrias.getListadoAutoresPreferidos());
-console.log("Metodo Get Generos Preferidos: " + FerFrias.getListadoGenerosPreferidos());
-console.log("Metodo Get Publicaciones Adquiridas :" + FerFrias.getPublicacionesAdquiridasDelCliente());
-console.log("Metodo Get Descuento General :" + FerFrias.getDescuentoGeneral());
+console.log("-Prueba Metodos de Cliente Fernando Frias");
+console.log(">Metodo Get Nombre :" + FerFrias.getNombre());
+console.log(">Metodo Get Apellido :" + FerFrias.getApellido());
+console.log(">Metodo Get DNI :" + FerFrias.getDNI());
+console.log(">Metodo Get Direccion :" + FerFrias.getDireccion());
+console.log(">Metodo Get Autores Preferidos: " + FerFrias.getDelListadoAutoresPreferidos());
+console.log(">Metodo Get Generos Preferidos: " + FerFrias.getDelListadoGenerosPreferidos());
+console.log(">Metodo Get Publicaciones Adquiridas :" + FerFrias.getPublicacionesAdquiridasDelCliente());
+console.log(">Metodo Get Descuento General :" + FerFrias.getDescuentoGeneral());
 console.log("------------------------------------------------------------------------------------");
 //------------------Creacion de Listado de Clientes--------------------
 var listadoClientes = [FerFrias, LiliHerrera];
@@ -116,9 +128,28 @@ var SiendoTuCambiandoElMundo = new _00_ClasePublicacion_1.Libro("Siendo Tú, Cam
 var listadoLibrosLibreria = [LaHojarasca, SaleElEspectro, Dune, ElHorrorDeDunwich, ElSenorDeLosAnillos, SiendoTuCambiandoElMundo];
 //------------------Creacion de Libreria------------------------------------
 var CodiceLibros = new Libreria(listadoLibrosLibreria, listadoClientes);
+//------------------Prueba Metodos de Libreria------------------------------------
+console.log("------------------------------------------------------------------------------------");
+console.log("-Prueba Metodos de Libreria");
+console.log("---------->Metodo cargar publicacion al listado - se crea una nueva publicacion -revista Lupin- y se agrega con: 'ingresarPublicacionAlCatalogo' ");
+var Lupin = new _00_ClasePublicacion_2.Revista("Lupin", "Héctor Mario Sídoli", 500, 45, 1969);
+CodiceLibros.ingresarPublicacionAlCatalogo(Lupin);
+console.log("---------->Metodo para mostrar los las publicaciones por cliente de FerFrias: 'getListadoDePublicacionesPorCliente' (arroja array vacio) ");
+console.log(CodiceLibros.getListadoDePublicacionesPorCliente(FerFrias));
+console.log("---------->Metodo vender publicacion Lupin y Dune a FerFrias: 'venderPublicacionAlCliente' ");
+CodiceLibros.venderPublicacionAlCliente(Lupin, FerFrias);
+CodiceLibros.venderPublicacionAlCliente(Dune, FerFrias);
+console.log("---------->Metodo para mostrar los las publicaciones por cliente de FerFrias: 'getListadoDePublicacionesPorCliente' (ahora deberia arrojar elementos) ");
+console.log(CodiceLibros.getListadoDePublicacionesPorCliente(FerFrias));
+console.log("---------->Metodo para mostrar el precio de una publicacion con y sin descuento, y considerando el cliente: LiliHerrera y libro Dune 'getPrecioPublicacionPorCliente' ");
+CodiceLibros.getPrecioPublicacionPorCliente(Dune, LiliHerrera);
+console.log("---------->Metodo para chequear si el cliente posee un libro adquirido: LiliHerrera y libro El señor de los anillos & FerFrias con revista Lupin 'checkPublicacionAdquiridaPorCLiente' ");
 CodiceLibros.checkPublicacionAdquiridaPorCLiente(ElSenorDeLosAnillos, LiliHerrera);
-console.log(CodiceLibros.getListadoDePublicacionesPorCliente(LiliHerrera));
-console.log(CodiceLibros.getPrecioPublicacionPorCliente(Dune, LiliHerrera));
-LiliHerrera.setPublicacionAlListadoCliente(Dune);
-console.log(CodiceLibros.getListadoDePublicacionesPorCliente(LiliHerrera));
-console.log(CodiceLibros.getPrecioPublicacionPorCliente(Dune, LiliHerrera));
+CodiceLibros.checkPublicacionAdquiridaPorCLiente(Lupin, FerFrias);
+var InstalacionesDeAireAcondicionadoYcalefacción = new _00_ClasePublicacion_1.Libro("Instalaciones de Aire Acondicionado y Calefacción", "Nestor Quadri", 5200, 384, "En esta nueva edición hemos efectuado una renovación general, para ajusfarlo en forma didáctica a los nuevos sistemas, equipamientos y técnicas de montaje desarrolladas durante estos últimos años, con el mismo propósito inicial, para que siga constituyendo como hasta ahora el libro de texto básico de consulta por parte de profesionales, técnicos o estudiantes y sea además, el portal de entrada para aquellos que quieran iniciarse en esta apasionante especialidad.Se efectúa una descripción global de las instalaciones, con ejemplos de aplicación simples y claros. Se tratan un sinnúmero de temas, entre los que se pueden mencionar los equipos de aire acondicionado individuales, roof-top y compactos, separados, split o multisplit, (VRV). Sistemas de volumen variable. (VAV). Unidades enfriadoras de agua y fan-coil. Instalaciones de calefacción de agua caliente por radiadores o pisos radiantes o aire caliente, así como de ventilación mecánica.Por otra parte, del mismo autor y como complemento", "Tecnico");
+console.log("---------->Se agrega una nueva publicacion al stock de la libreria: Libro Tecnico  'Instalaciones de Aire Acondicionado y Calefacción' 'ingresarPublicacionAlCatalogo' ");
+CodiceLibros.ingresarPublicacionAlCatalogo(InstalacionesDeAireAcondicionadoYcalefacción);
+console.log("---------->Se muestra el Catalogo completo de la Libreria 'mostrarPublicacionesDelCatalogo' ");
+CodiceLibros.mostrarPublicacionesDelCatalogo();
+console.log("---------->El Metodo muestra si a un cliente le gusta un determinado Libro: ferFrias con el Libro 'Instalaciones de Aire Acondicionado y Calefacción' 'gustaAlClienteLibro' ");
+CodiceLibros.gustaAlClienteLibro(InstalacionesDeAireAcondicionadoYcalefacción, FerFrias);
