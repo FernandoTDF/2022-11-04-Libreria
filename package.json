@@ -1,0 +1,12 @@
+{
+  "name": "20-2022-10-30-Libreria",
+  "version": "1.0.0",
+  "description": "",
+  "main": "00-ClaseCliente.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
